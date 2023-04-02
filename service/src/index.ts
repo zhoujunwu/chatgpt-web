@@ -1,3 +1,4 @@
+import fs from 'fs'
 import express from 'express'
 import type { ChatContext, ChatMessage } from './chatgpt'
 import { chatConfig, chatReplyProcess, currentModel } from './chatgpt'
@@ -59,11 +60,40 @@ router.post('/session', async (req, res) => {
 
 router.post('/verify', async (req, res) => {
   try {
+    // fs.createReadStream("user.csv")
+    //   .pipe(parse({ delimiter: ",", from_line: 2 }))
+    //   .on("data", function (row) {
+    //       console.log("row ${}")
+    //       console.log(row);
+    //   })
+
+    // fs.createReadStream('user.csv')
+    //     .pipe(parse({ columns: true }))
+    //     .on('data', function(row) {
+    //         userList.push(row.id);
+    //       })
+    //     .on('end', function() {
+    //         console.log(userList)
+    //   })
+
+    const userList = []
+    const data = fs.readFileSync('user.csv')
+    const rows = data.toString().trim().split('\n')
+    rows.forEach(
+      (row, index) => {
+        const cols = row.split(',')
+        if (index > 0)
+          userList.push(cols[0])
+      })
+
     const { token } = req.body as { token: string }
     if (!token)
       throw new Error('Secret key is empty')
 
-    if (process.env.AUTH_SECRET_KEY !== token)
+    // if (process.env.AUTH_SECRET_KEY !== token)
+    //   throw new Error('密钥无效 | Secret key is invalid')
+
+    if (!userList.includes(token))
       throw new Error('密钥无效 | Secret key is invalid')
 
     res.send({ status: 'Success', message: 'Verify successfully', data: null })
