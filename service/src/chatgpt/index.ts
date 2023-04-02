@@ -46,6 +46,8 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
     if (isNotEmptyString(process.env.OPENAI_API_BASE_URL))
       options.apiBaseUrl = process.env.OPENAI_API_BASE_URL
 
+    // eslint-disable-next-line no-console
+    console.log(options)
     setupProxy(options)
 
     api = new ChatGPTAPI({ ...options })
@@ -65,6 +67,8 @@ let api: ChatGPTAPI | ChatGPTUnofficialProxyAPI
     api = new ChatGPTUnofficialProxyAPI({ ...options })
     apiModel = 'ChatGPTUnofficialProxyAPI'
   }
+  // eslint-disable-next-line no-console
+  console.log('setting up the api')
 })()
 
 async function chatReplyProcess(
