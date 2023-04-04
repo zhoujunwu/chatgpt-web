@@ -8,7 +8,7 @@ const auth = async (req, res, next) => {
       const Authorization = req.header('Authorization')
 
       const userList = []
-      const data = fs.readFileSync('user.csv')
+      const data = fs.readFileSync('data/user.csv')
       const rows = data.toString().trim().split('\n')
       rows.forEach(
         (row, index) => {

@@ -77,7 +77,7 @@ router.post('/verify', async (req, res) => {
     //   })
 
     const userList = []
-    const data = fs.readFileSync('user.csv')
+    const data = fs.readFileSync('data/user.csv')
     const rows = data.toString().trim().split('\n')
     rows.forEach(
       (row, index) => {
